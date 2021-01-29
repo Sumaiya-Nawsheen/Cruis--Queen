@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -31,7 +33,9 @@
 
         <div class="booking-content">
             <h1>Cruise Queen</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book./p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                scrambled it to make a type specimen book.</p>
         </div>
 
 
@@ -48,30 +52,45 @@
             <div class="inputs">
                 <div class="input-group">
                     <label" for="">Departure</label>
-                    <input class="inp-style" type="date" name="">
+                        <input class="inp-style" type="date" name="">
                 </div>
                 <div class="input-group">
                     <label for="">Return</label>
                     <input class="inp-style" type="date" name="">
                 </div>
             </div>
+            <!-- first class -->
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input class="inp-style inp-width text-center" type="number" name="" value="0"
+                        id="firstClass-ticket-amount">
                 </div>
                 <div class="plus-minus-btn">
-                    <p>+ -</p>
+                    <button
+                        onclick="ticketsAmountCounting('firstClass-ticket-amount','firstClass-plus-btn'); totalFare('firstClass-ticket-amount','economyClass-ticket-amount');"
+                        class="btn btn-default" id="firstClass-plus-btn"><i class="fas fa-plus"></i></button>
+                    <br>
+                    <button
+                        onclick="ticketsAmountCounting('firstClass-ticket-amount','firstClass-minus-btn'); totalFare('firstClass-ticket-amount','economyClass-ticket-amount');"
+                        class="btn btn-default" id="firstClass-minus-btn"><i class="fas fa-minus"></i></button>
                 </div>
             </div>
-            
+            <!-- economy class -->
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input class="inp-style inp-width text-center" type="number" name="" value="0"
+                        id="economyClass-ticket-amount">
                 </div>
                 <div class="plus-minus-btn">
-                    <p> <span>+</span> <span>-</span> </p>
+                    <button
+                        onclick="ticketsAmountCounting('economyClass-ticket-amount','economyClass-plus-btn') ; totalFare('firstClass-ticket-amount','economyClass-ticket-amount');"
+                        class="btn btn-default" id="economyClass-plus-btn"><i class="fas fa-plus"></i></button>
+                    <br>
+                    <button
+                        onclick="ticketsAmountCounting('economyClass-ticket-amount','economyClass-minus-btn'); totalFare('firstClass-ticket-amount','economyClass-ticket-amount');"
+                        class="btn btn-default" id="economyClassminus-btn"><i class="fas fa-minus"></i></button>
                 </div>
             </div>
             <div class="calculations">
@@ -80,7 +99,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p>$<span id="subTotal">000</span></p>
                     </div>
                 </div>
 
@@ -89,7 +108,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p>$<span id="taxPercentage">00</span></p>
                     </div>
                 </div>
                 <hr>
@@ -98,7 +117,7 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p>$<span id="Total">00</span></p>
                     </div>
                 </div>
             </div>
@@ -107,6 +126,40 @@
     </main>
 
     <!--Thank You-->
+
+    <!-- script -->
+    <script>
+
+        function ticketsAmountCounting(id1, id2) {
+
+            if (id2 == "firstClass-plus-btn" || id2 == "economyClass-plus-btn") {
+                const ticketAmount = parseInt(document.getElementById(id1).value);
+                const addTickets = ticketAmount + 1;
+                document.getElementById(id1).value = addTickets;
+            }
+            else {
+                const ticketAmount = parseInt(document.getElementById(id1).value);
+                if (ticketAmount > 0) {
+                    const minusTickets = ticketAmount - 1;
+                    document.getElementById(id1).value = minusTickets;
+                }
+
+            }
+        }
+        function totalFare(id1, id2) {
+            const subTotalId = document.getElementById("subTotal").innerText;
+            const subtotal = parseInt(document.getElementById(id1).value) * 150 + parseInt(document.getElementById(id2).value) * 100;
+            document.getElementById("subTotal").innerText = subtotal;
+            const taxPercent = document.getElementById("taxPercentage").innerText;
+            const taxAdded = subtotal * (10 / 100);
+            document.getElementById("taxPercentage").innerText= taxAdded;
+            const TotalId = document.getElementById("Total").innerText;
+            const finalTotal = subtotal + taxAdded;
+            document.getElementById("Total").innerText = finalTotal;
+
+        }
+
+    </script>
 </body>
 
 </html>
