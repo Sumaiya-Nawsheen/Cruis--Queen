@@ -125,3 +125,21 @@ nav ul li a:hover, a.active{
     display: flex;
     justify-content: space-between;
 }
+#confirmation-msg{
+    display: none;
+    width: 70%;
+
+    align-items: center;
+    justify-content: center;
+    /* /* position: relative;
+    border-radius: 8px;
+    background-color: wheat; */
+    /* background-color:wheat;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    
+    */ 
+   
+
+}

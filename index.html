@@ -29,7 +29,7 @@
     </header>
 
     <!--Booking Section-->
-    <main class="main-content container">
+    <main class="main-content container" id="booking-pg">
 
         <div class="booking-content">
             <h1>Cruise Queen</h1>
@@ -43,7 +43,7 @@
             <h3>Book Ocean Time</h3>
             <div class="input-group">
                 <label for="">Flying From</label>
-                <input class="inp-style" type="text" name="" placeholder="Dhake, Bangladesh">
+                <input class="inp-style" type="text" name="" placeholder="Dhaka, Bangladesh">
             </div>
             <div class="input-group">
                 <label for="">Flying To</label>
@@ -62,8 +62,8 @@
             <!-- first class -->
             <div class="input-group f-class">
                 <div>
-                    <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width text-center" type="number" name="" value="0"
+                    <label for="">First Class ($<span id="f-cls-fair">150</span>)</label>
+                    <input class="inp-style inp-width text-center" type="text" name="" value="0"
                         id="firstClass-ticket-amount">
                 </div>
                 <div class="plus-minus-btn">
@@ -79,8 +79,8 @@
             <!-- economy class -->
             <div class="input-group f-class">
                 <div>
-                    <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width text-center" type="number" name="" value="0"
+                    <label for="">Economy ($<span id="e-cls-fair">100</span>)</label>
+                    <input class="inp-style inp-width text-center" type="text" name="" value="0"
                         id="economyClass-ticket-amount">
                 </div>
                 <div class="plus-minus-btn">
@@ -121,41 +121,117 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button onclick="transactionPage()" class="btn-style">Book Now</button>
         </div>
+    </main>
+    <!-- extra form -->
+    <main id="confirmation-msg" class="main-content container ">
+        <div class="booking-form">
+            <h3 style="align-items: center;">Confirmation Of Booking Ocean Time</h3>
+
+            <div class="inputs">
+                <div class="input-group">
+                    <label for="">Flying From</label>
+                    <input class="inp-style" type="text" name="" placeholder="Dhaka, Bangladesh">
+                </div>
+                <div class="input-group">
+                    <label for="">Flying To</label>
+                    <input class="inp-style" type="text" name="" placeholder="New York, United States">
+                </div>
+                <div class="input-group">
+                    <label" for="">Departure</label>
+                        <input class="inp-style" type="date" name="">
+                </div>
+                <div class="input-group">
+                    <label for="">Return</label>
+                    <input class="inp-style" type="date" name="">
+                </div>
+                <div>
+                    <label for="">First Class ($150)</label>
+                    <input class="inp-style  form-contro" id="totalFclsTicket" type="text" name="" readonly>
+                </div>
+                <div>
+                    <label for="">Economy ($100)</label>
+                    <input class="inp-style  form-contro " id="totalEclsTicket" type="text" name="" readonly>
+                </div>
+            </div>
+
+            <div class="calculations">
+                <div class="amount">
+                    <button class="btn btn-info btn-style">
+                        <div class="left">
+                            <h4>Total</h4>
+                        </div>
+                    </button>
+                    <button class="btn btn-info btn-style">
+
+                        <div class="right">
+                            <p style="font-size: 20px;">$ <span id="totalFare">000 </span></p>
+                        </div>
+                    </button>
+                </div>
+            </div>
     </main>
 
     <!--Thank You-->
 
     <!-- script -->
     <script>
-
-        function ticketsAmountCounting(id1, id2) {
-
-            if (id2 == "firstClass-plus-btn" || id2 == "economyClass-plus-btn") {
-                const ticketAmount = parseInt(document.getElementById(id1).value);
+// tickets quantity, plus-minus button
+        function ticketsAmountCounting(amount, btnPress) {
+            const ticketAmount = getParsedValue(amount);
+            if (btnPress == "firstClass-plus-btn" || btnPress == "economyClass-plus-btn") {
                 const addTickets = ticketAmount + 1;
-                document.getElementById(id1).value = addTickets;
+                document.getElementById(amount).value = addTickets;
             }
             else {
-                const ticketAmount = parseInt(document.getElementById(id1).value);
-                if (ticketAmount > 0) {
+               if (ticketAmount > 0) {
                     const minusTickets = ticketAmount - 1;
-                    document.getElementById(id1).value = minusTickets;
+                    document.getElementById(amount).value = minusTickets;
                 }
-
             }
         }
+        function getInnerText(id){
+           const innertext = document.getElementById(id).innerText;
+        }
+        function getParsedValue(id){
+           const parsing = parseInt(document.getElementById(id).value);
+           return parsing;
+        }
         function totalFare(id1, id2) {
-            const subTotalId = document.getElementById("subTotal").innerText;
-            const subtotal = parseInt(document.getElementById(id1).value) * 150 + parseInt(document.getElementById(id2).value) * 100;
+             const subTotalId =  getInnerText("subTotal");
+            const subtotal = getParsedValue(id1)* 150 + getParsedValue(id2)* 100;
             document.getElementById("subTotal").innerText = subtotal;
-            const taxPercent = document.getElementById("taxPercentage").innerText;
+            const taxPercent = getInnerText("taxPercentage");
             const taxAdded = subtotal * (10 / 100);
-            document.getElementById("taxPercentage").innerText= taxAdded;
-            const TotalId = document.getElementById("Total").innerText;
+            document.getElementById("taxPercentage").innerText = taxAdded;
+            const TotalId =  getInnerText("Total");
             const finalTotal = subtotal + taxAdded;
             document.getElementById("Total").innerText = finalTotal;
+
+        }
+
+        function transactionPage() {
+            if (document.getElementById("Total").innerText > 0) {
+                document.getElementById("booking-pg").style.display = "none";
+                document.getElementById("confirmation-msg").style.display = "block";
+                ticketNo("firstClass-ticket-amount");
+                ticketNo('economyClass-ticket-amount');
+                document.getElementById("totalFare").innerText = document.getElementById("Total").innerText;
+            }
+            else {
+                alert("Please Book some Tickets");
+            }
+        }
+        function ticketNo(id) {
+            let fClsTickets = document.getElementById(id).value;
+            if (id == "firstClass-ticket-amount") {
+
+                document.getElementById("totalFclsTicket").value = fClsTickets;
+            }
+            else {
+                document.getElementById("totalEclsTicket").value = fClsTickets;
+            }
 
         }
 
