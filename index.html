@@ -13,7 +13,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
-</head>
+    </head>
 
 <body>
     <!--Header and Menu Section-->
@@ -62,7 +62,7 @@
             <!-- first class -->
             <div class="input-group f-class">
                 <div>
-                    <label for="">First Class ($<span id="f-cls-fair">150</span>)</label>
+                    <label for="">First Class ($150)</label>
                     <input class="inp-style inp-width text-center" type="text" name="" value="0"
                         id="firstClass-ticket-amount">
                 </div>
@@ -79,7 +79,7 @@
             <!-- economy class -->
             <div class="input-group f-class">
                 <div>
-                    <label for="">Economy ($<span id="e-cls-fair">100</span>)</label>
+                    <label for="">Economy ($100)</label>
                     <input class="inp-style inp-width text-center" type="text" name="" value="0"
                         id="economyClass-ticket-amount">
                 </div>
@@ -121,10 +121,11 @@
                     </div>
                 </div>
             </div>
-            <button onclick="transactionPage()" class="btn-style">Book Now</button>
+            <button onclick="confirmationPage()" class="btn-style">Book Now</button>
         </div>
     </main>
-    <!-- extra form -->
+
+    <!-- booking confirmation form -->
     <main id="confirmation-msg" class="main-content container ">
         <div class="booking-form">
             <h3 style="align-items: center;">Confirmation Of Booking Ocean Time</h3>
@@ -176,66 +177,7 @@
     <!--Thank You-->
 
     <!-- script -->
-    <script>
-// tickets quantity, plus-minus button
-        function ticketsAmountCounting(amount, btnPress) {
-            const ticketAmount = getParsedValue(amount);
-            if (btnPress == "firstClass-plus-btn" || btnPress == "economyClass-plus-btn") {
-                const addTickets = ticketAmount + 1;
-                document.getElementById(amount).value = addTickets;
-            }
-            else {
-               if (ticketAmount > 0) {
-                    const minusTickets = ticketAmount - 1;
-                    document.getElementById(amount).value = minusTickets;
-                }
-            }
-        }
-        function getInnerText(id){
-           const innertext = document.getElementById(id).innerText;
-        }
-        function getParsedValue(id){
-           const parsing = parseInt(document.getElementById(id).value);
-           return parsing;
-        }
-        function totalFare(id1, id2) {
-             const subTotalId =  getInnerText("subTotal");
-            const subtotal = getParsedValue(id1)* 150 + getParsedValue(id2)* 100;
-            document.getElementById("subTotal").innerText = subtotal;
-            const taxPercent = getInnerText("taxPercentage");
-            const taxAdded = subtotal * (10 / 100);
-            document.getElementById("taxPercentage").innerText = taxAdded;
-            const TotalId =  getInnerText("Total");
-            const finalTotal = subtotal + taxAdded;
-            document.getElementById("Total").innerText = finalTotal;
-
-        }
-
-        function transactionPage() {
-            if (document.getElementById("Total").innerText > 0) {
-                document.getElementById("booking-pg").style.display = "none";
-                document.getElementById("confirmation-msg").style.display = "block";
-                ticketNo("firstClass-ticket-amount");
-                ticketNo('economyClass-ticket-amount');
-                document.getElementById("totalFare").innerText = document.getElementById("Total").innerText;
-            }
-            else {
-                alert("Please Book some Tickets");
-            }
-        }
-        function ticketNo(id) {
-            let fClsTickets = document.getElementById(id).value;
-            if (id == "firstClass-ticket-amount") {
-
-                document.getElementById("totalFclsTicket").value = fClsTickets;
-            }
-            else {
-                document.getElementById("totalEclsTicket").value = fClsTickets;
-            }
-
-        }
-
-    </script>
+   <script src="script.js"></script>
 </body>
 
 </html>
